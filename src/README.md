@@ -6,6 +6,7 @@ A super simple FastAPI application that allows students to view and sign up for 
 
 - View all available extracurricular activities
 - Sign up for activities
+- View announcements for the school community
 
 ## Getting Started
 
@@ -27,10 +28,18 @@ A super simple FastAPI application that allows students to view and sign up for 
 
 ## API Endpoints
 
-| Method | Endpoint                                                          | Description                                                         |
-| ------ | ----------------------------------------------------------------- | ------------------------------------------------------------------- |
-| GET    | `/activities`                                                     | Get all activities with their details and current participant count |
-| POST   | `/activities/{activity_name}/signup?email=student@mergington.edu` | Sign up for an activity                                             |
+| Method | Endpoint                                                                          | Description                                                         |
+| ------ | --------------------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| GET    | `/activities`                                                                     | Get all activities with their details and current participant count |
+| POST   | `/activities/{activity_name}/signup?email=student@mergington.edu&teacher_username=USER` | Sign up for an activity (teacher required)                          |
+| POST   | `/activities/{activity_name}/unregister?email=student@mergington.edu&teacher_username=USER` | Unregister from an activity (teacher required)                      |
+| POST   | `/auth/login?username=USER&password=PASS`                                          | Teacher login                                                       |
+| GET    | `/auth/check-session?username=USER`                                                | Validate teacher session                                            |
+| GET    | `/announcements`                                                                   | Get active announcements                                            |
+| GET    | `/announcements/manage?teacher_username=USER`                                      | List all announcements (teacher required)                           |
+| POST   | `/announcements?teacher_username=USER`                                             | Create announcement (teacher required)                              |
+| PUT    | `/announcements/{announcement_id}?teacher_username=USER`                           | Update announcement (teacher required)                              |
+| DELETE | `/announcements/{announcement_id}?teacher_username=USER`                           | Delete announcement (teacher required)                              |
 
 ## Data Model
 
@@ -47,4 +56,4 @@ The application uses a simple data model with meaningful identifiers:
    - Name
    - Grade level
 
-All data is stored in memory, which means data will be reset when the server restarts.
+All data is stored in MongoDB. Sample content is created in `database.py` when the database is empty.
